@@ -1,0 +1,5 @@
+db:
+npm i drizzle-orm better-sqlite3
+npm i -D drizzle-kit @types/better-sqlite3
+npx drizzle-kit generate
+npx drizzle-kit migrate
