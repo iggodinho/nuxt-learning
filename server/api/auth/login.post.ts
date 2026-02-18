@@ -1,7 +1,7 @@
 import {hash, compare} from "bcrypt-ts";
 import {eq} from "drizzle-orm";
 import { usersTable } from "../../db/schema";
-
+import jwt from "jsonwebtoken";
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
@@ -34,5 +34,13 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    return {success: true, message: "Login successful"};
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET!, 
+        { 
+            expiresIn: "1d", 
+            algorithm: "HS256"
+        });
+
+    return {success: true, message: "Login successful", token};
+
+
 })
